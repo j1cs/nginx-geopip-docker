@@ -1,0 +1,14 @@
+services:
+  nginx:
+    build:
+      context: j1cs/nginx-geoip-docker
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - './nginx/.htpasswd:/etc/nginx/.htpasswd'
+      - './nginx/nginx.conf:/etc/nginx/nginx.conf'
+      - './nginx/conf:/etc/nginx/conf.d'
+    command: >-
+      /bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done &
+      nginx -g "daemon off;"'
